@@ -4,6 +4,7 @@ on: workflow_dispatch
 jobs:
 
   ec2-nginx:
+    runs-on: [self-hosted, macos-latest, x64]
     steps:
       - run: terraform init
       - run: terraform plan
