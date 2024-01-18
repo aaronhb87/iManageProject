@@ -7,6 +7,7 @@ jobs:
     runs-on: ${{ fromJSON('["macos-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
 
     steps:
+      - uses: actions/checkout@v4
       - run: brew install hashicorp/tap/terraform
       - run: terraform init
       - run: terraform plan
