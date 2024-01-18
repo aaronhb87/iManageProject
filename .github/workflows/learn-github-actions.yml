@@ -1,0 +1,10 @@
+name: initialize-ec2
+run-name: initialize-ec2-instance-and-install-nginx
+on: workflow_dispatch
+jobs:
+
+  ec2-nginx:
+    steps:
+      - run: terraform init
+      - run: terraform plan
+      - run: terraform apply --auto-approve
