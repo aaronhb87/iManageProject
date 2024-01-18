@@ -4,7 +4,8 @@ on: workflow_dispatch
 jobs:
 
   ec2-nginx:
-    runs-on: [self-hosted, macos]
+    runs-on: ${{ fromJSON('["macos-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
+
     steps:
       - run: terraform init
       - run: terraform plan
