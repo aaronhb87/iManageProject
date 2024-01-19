@@ -1,3 +1,6 @@
+#The intention of this workflow is to run the terraform commands on my mac,
+#however it isn't currently functional due to a lack of security credentials on the mac runner
+
 name: initialize-ec2
 run-name: initialize-ec2-instance-and-install-nginx
 on: workflow_dispatch

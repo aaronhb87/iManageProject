@@ -5,6 +5,7 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+#ec2 resource
 resource "aws_instance" "ec2" {
   ami           = "ami-0c7217cdde317cfec"
   instance_type = "t2.micro"
@@ -20,8 +21,7 @@ resource "aws_instance" "ec2" {
   }
 }
 
-#               echo "Hello World" > /var/www/html/index.html
-
+#security group
 resource "aws_security_group" "allow_web_traffic" {
   name        = "port80"
   description = "Allow inbound traffic on port 80 and all outbound traffic"
@@ -49,6 +49,7 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
   network_interface_id = aws_instance.ec2.primary_network_interface_id
 }
 
+#outputs public ip of ec2 server instance
 output "server_public_ip" {
   value = aws_instance.ec2.public_ip
 }
