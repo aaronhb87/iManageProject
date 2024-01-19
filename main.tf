@@ -1,4 +1,7 @@
 #Author: Aaron Burkett
+#This terraform file initializes an ec2 instance and installs nginx upon initilization.
+#It also creates a secruity group attached to the ec2 instance.
+#Lastly, it outputs the public ip of the ec2 instance
 
 #aws CLI configured to have static access key
 provider "aws" {
