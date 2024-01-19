@@ -3,6 +3,29 @@
 #It also creates a secruity group attached to the ec2 instance.
 #Lastly, it outputs the public ip of the ec2 instance
 
+data "aws_ami" "example" {
+  executable_users = ["self"]
+  most_recent      = true
+  #name_regex       = "^myami-\\d{3}"
+  owners           = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+
 #aws CLI configured to have static access key
 provider "aws" {
   region  = "us-east-1"
@@ -10,7 +33,7 @@ provider "aws" {
 
 #ec2 resource
 resource "aws_instance" "ec2" {
-  ami           = "ami-0c7217cdde317cfec"
+  ami           = data.aws_ami.example.id
   instance_type = "t2.micro"
 
   user_data = <<-EOF
@@ -34,8 +57,18 @@ resource "aws_security_group" "allow_web_traffic" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["1.1.1.1/8"]
     ipv6_cidr_blocks = ["::/0"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    #cidr_blocks = ["192.168.2.13/32"]
+    cidr_blocks = ["142.189.154.96/32"]
+    #ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
